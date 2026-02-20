@@ -1,0 +1,7 @@
+{
+  "name": "com.qbookmark.aibridge",
+  "description": "Q Bookmark AI Bridge",
+  "path": "BRIDGE_PATH_PLACEHOLDER",
+  "type": "stdio",
+  "allowed_extensions": ["EXTENSION_ID_PLACEHOLDER"]
+}
