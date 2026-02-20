@@ -16,6 +16,12 @@ fi
 
 echo "✅ Python 3 found: $(python3 --version)"
 
+# Install requirements
+echo ""
+echo "📦 Installing Python dependencies..."
+pip3 install --break-system-packages requests 2>/dev/null || pip3 install --user requests 2>/dev/null || pip3 install requests
+echo "✅ Dependencies installed"
+
 # Get script directory
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 BRIDGE_SCRIPT="$SCRIPT_DIR/bridge.py"

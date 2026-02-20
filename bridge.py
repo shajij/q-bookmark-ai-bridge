@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/opt/homebrew/bin/python3
 """
 Q Bookmark AI Bridge
 Native messaging host for Firefox extension to communicate with Ollama
@@ -6,7 +6,21 @@ Native messaging host for Firefox extension to communicate with Ollama
 import sys
 import json
 import struct
-import requests
+
+# Try to import requests, provide helpful error if missing
+try:
+    import requests
+except ImportError:
+    error_msg = {
+        "success": False, 
+        "error": "Python 'requests' module not installed. Run: pip3 install --break-system-packages requests"
+    }
+    encoded = json.dumps(error_msg).encode('utf-8')
+    sys.stdout.buffer.write(struct.pack('I', len(encoded)))
+    sys.stdout.buffer.write(encoded)
+    sys.stdout.buffer.flush()
+    sys.exit(1)
+
 from typing import Dict, Any
 
 OLLAMA_URL = "http://localhost:11434"
@@ -35,7 +49,7 @@ def call_ollama(action: str, data: Dict[str, Any]) -> Dict[str, Any]:
         
         elif action == "summarize":
             bookmark = data.get("bookmark", {})
-            model = data.get("model", "llama2")
+            model = data.get("model", "llama3")
             
             prompt = f"Summarize this bookmark in 2-3 sentences:\nTitle: {bookmark.get('title', '')}\nURL: {bookmark.get('url', '')}"
             
@@ -54,7 +68,7 @@ def call_ollama(action: str, data: Dict[str, Any]) -> Dict[str, Any]:
         elif action == "search":
             query = data.get("query", "")
             bookmarks = data.get("bookmarks", [])
-            model = data.get("model", "llama2")
+            model = data.get("model", "llama3")
             
             prompt = f"Given this search query: '{query}'\nFind the most relevant bookmarks from this list and explain why:\n"
             for i, bm in enumerate(bookmarks[:10]):  # Limit to 10
