@@ -163,6 +163,24 @@ Then delete this folder.
 - **Email**: cndtownmgmt@gmail.com
 - **Ollama Issues**: See [Ollama documentation](https://ollama.ai)
 
+## Security Considerations
+
+⚠️ **Important Security Notes:**
+
+1. **Local Processing Only**: All AI processing happens on your computer via Ollama. No data is sent to external servers.
+
+2. **Trusted Bookmarks**: The AI Bridge processes bookmark titles and URLs. Only use with bookmarks from trusted sources.
+
+3. **Input Sanitization**: The bridge sanitizes all inputs to prevent prompt injection attacks. However, exercise caution with untrusted bookmarks.
+
+4. **Localhost Only**: The bridge only connects to localhost (127.0.0.1:11434). It cannot access external networks.
+
+5. **Open Source**: All code is open source and auditable. Review the code before installation if you have security concerns.
+
+6. **No Credentials**: The bridge does not store or transmit any credentials, API keys, or personal information.
+
+7. **Privacy**: No data collection, tracking, or analytics. Everything stays on your machine.
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.

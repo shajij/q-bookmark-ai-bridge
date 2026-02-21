@@ -1,4 +1,4 @@
-#!/opt/homebrew/bin/python3
+#!/usr/bin/env python3
 """
 Q Bookmark AI Bridge
 Native messaging host for Firefox extension to communicate with Ollama
@@ -22,8 +22,23 @@ except ImportError:
     sys.exit(1)
 
 from typing import Dict, Any
+import re
 
 OLLAMA_URL = "http://localhost:11434"
+MAX_INPUT_LENGTH = 10000  # Maximum characters for any input
+MAX_BOOKMARKS = 50  # Maximum bookmarks to process
+
+def sanitize_input(text: str, max_length: int = MAX_INPUT_LENGTH) -> str:
+    """Sanitize user input to prevent prompt injection"""
+    if not text:
+        return ""
+    # Limit length
+    text = text[:max_length]
+    # Remove control characters
+    text = re.sub(r'[\x00-\x1f\x7f-\x9f]', '', text)
+    # Escape potential prompt injection attempts
+    text = text.replace('\n', ' ').replace('\r', ' ')
+    return text.strip()
 
 def send_message(message: Dict[str, Any]):
     """Send message to Firefox extension"""
@@ -51,7 +66,11 @@ def call_ollama(action: str, data: Dict[str, Any]) -> Dict[str, Any]:
             bookmark = data.get("bookmark", {})
             model = data.get("model", "llama3")
             
-            prompt = f"Summarize this bookmark in 2-3 sentences:\nTitle: {bookmark.get('title', '')}\nURL: {bookmark.get('url', '')}"
+            # Sanitize inputs
+            title = sanitize_input(bookmark.get('title', ''), 500)
+            url = sanitize_input(bookmark.get('url', ''), 2000)
+            
+            prompt = f"Summarize this bookmark in 2-3 sentences:\nTitle: {title}\nURL: {url}"
             
             response = requests.post(
                 f"{OLLAMA_URL}/api/generate",
@@ -66,13 +85,15 @@ def call_ollama(action: str, data: Dict[str, Any]) -> Dict[str, Any]:
                 return {"success": False, "error": f"Ollama error: {response.status_code}"}
         
         elif action == "search":
-            query = data.get("query", "")
-            bookmarks = data.get("bookmarks", [])
+            query = sanitize_input(data.get("query", ""), 500)
+            bookmarks = data.get("bookmarks", [])[:MAX_BOOKMARKS]  # Limit bookmarks
             model = data.get("model", "llama3")
             
             prompt = f"Given this search query: '{query}'\nFind the most relevant bookmarks from this list and explain why:\n"
-            for i, bm in enumerate(bookmarks[:10]):  # Limit to 10
-                prompt += f"{i+1}. {bm.get('title', '')} - {bm.get('url', '')}\n"
+            for i, bm in enumerate(bookmarks[:10]):  # Limit to 10 for display
+                title = sanitize_input(bm.get('title', ''), 200)
+                url = sanitize_input(bm.get('url', ''), 500)
+                prompt += f"{i+1}. {title} - {url}\n"
             
             response = requests.post(
                 f"{OLLAMA_URL}/api/generate",
