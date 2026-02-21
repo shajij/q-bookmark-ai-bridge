@@ -18,7 +18,7 @@ The Q Book Marker Pro Firefox extension has AI-powered features (bookmark summar
 **Quick Start:**
 ```bash
 # Clone this repository
-git clone https://github.com/yourusername/q-bookmark-ai-bridge.git
+git clone https://github.com/shajij/q-bookmark-ai-bridge.git
 cd q-bookmark-ai-bridge
 
 # Run installer
@@ -159,7 +159,7 @@ Then delete this folder.
 ## Support
 
 - **Extension Issues**: Contact via Firefox Add-ons page
-- **Bridge Issues**: [Open an issue](https://github.com/yourusername/q-bookmark-ai-bridge/issues)
+- **Bridge Issues**: [Open an issue](https://github.com/shajij/q-bookmark-ai-bridge/issues)
 - **Email**: cndtownmgmt@gmail.com
 - **Ollama Issues**: See [Ollama documentation](https://ollama.ai)
 
