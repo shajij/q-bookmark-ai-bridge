@@ -1,10 +1,33 @@
-# Q Bookmark AI Bridge
+# Q Book Marker Pro - AI Bridge
 
-Native messaging bridge that enables AI features in the Q Book Marker Firefox extension by connecting it to your local Ollama installation.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+Native messaging bridge that enables AI features in the [Q Book Marker Pro](https://addons.mozilla.org/firefox/addon/q-bookmark-pro/) Firefox extension by connecting it to your local Ollama installation.
 
 ## What is this?
 
-The Q Book Marker Firefox extension has optional AI-powered features (bookmark summaries and AI search). However, Firefox extensions cannot directly connect to localhost services like Ollama. This bridge solves that problem by acting as a secure intermediary.
+The Q Book Marker Pro Firefox extension has AI-powered features (bookmark summaries and AI search). However, Firefox extensions cannot directly connect to localhost services like Ollama. This bridge solves that problem by acting as a secure intermediary.
+
+## Getting Started
+
+**Prerequisites:**
+- [Q Book Marker Pro](https://addons.mozilla.org/firefox/addon/q-bookmark-pro/) Firefox extension installed
+- [Ollama](https://ollama.ai) installed on your computer
+- Python 3.7+ (usually pre-installed on macOS/Linux)
+
+**Quick Start:**
+```bash
+# Clone this repository
+git clone https://github.com/yourusername/q-bookmark-ai-bridge.git
+cd q-bookmark-ai-bridge
+
+# Run installer
+./install.sh  # macOS/Linux
+# or
+install.bat   # Windows
+
+# Follow the prompts and restart Firefox
+```
 
 ## Features
 
@@ -46,8 +69,8 @@ The Q Book Marker Firefox extension has optional AI-powered features (bookmark s
 1. Open Firefox
 2. Go to `about:debugging`
 3. Click "This Firefox" in the left sidebar
-4. Find "Q Book Marker" in the list
-5. Copy the "Internal UUID" (looks like: `{12345678-1234-1234-1234-123456789abc}`)
+4. Find "Q Book Marker Pro" in the list
+5. Copy the "Internal UUID" (should be: `qbookmark-pro@johshaji.dev`)
 
 ## Usage
 
@@ -135,25 +158,24 @@ Then delete this folder.
 
 ## Support
 
-- **Extension Issues**: Contact extension developer
-- **Bridge Issues**: Check troubleshooting above
+- **Extension Issues**: Contact via Firefox Add-ons page
+- **Bridge Issues**: [Open an issue](https://github.com/yourusername/q-bookmark-ai-bridge/issues)
+- **Email**: cndtownmgmt@gmail.com
 - **Ollama Issues**: See [Ollama documentation](https://ollama.ai)
 
-## Technical Details
+## Contributing
 
-- **Bridge Script**: `bridge.py` (Python 3)
-- **Protocol**: Native Messaging (JSON over stdin/stdout)
-- **Ollama API**: HTTP REST API on localhost:11434
-- **Models**: Supports any Ollama model (default: llama2)
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-MIT License - See extension for details
+MIT License - See [LICENSE](LICENSE) file for details
 
-## Version
+## Acknowledgments
 
-1.0.0 - Initial release
+- Built for [Q Book Marker Pro](https://addons.mozilla.org/firefox/addon/q-bookmark-pro/)
+- Powered by [Ollama](https://ollama.ai)
 
 ---
 
-**Note**: The Q Book Marker extension works perfectly without this bridge. AI features are completely optional.
+**Note**: The Q Book Marker Pro extension works perfectly without this bridge. AI features are completely optional.
