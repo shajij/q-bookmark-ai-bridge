@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Native messaging bridge that enables AI features in the [Q Book Marker Pro](https://addons.mozilla.org/firefox/addon/q-bookmark-pro/) Firefox extension by connecting it to your local Ollama installation.
+Native messaging bridge that enables AI features in the [Q Book Marker Pro](https://addons.mozilla.org/en-US/firefox/addon/q-book-marker-pro/) Firefox extension by connecting it to your local Ollama installation.
 
 ## What is this?
 
@@ -11,7 +11,7 @@ The Q Book Marker Pro Firefox extension has AI-powered features (bookmark summar
 ## Getting Started
 
 **Prerequisites:**
-- [Q Book Marker Pro](https://addons.mozilla.org/firefox/addon/q-bookmark-pro/) Firefox extension installed
+- [Q Book Marker Pro](https://addons.mozilla.org/en-US/firefox/addon/q-book-marker-pro/) Firefox extension installed
 - [Ollama](https://ollama.ai) installed on your computer
 - Python 3.7+ (usually pre-installed on macOS/Linux)
 
