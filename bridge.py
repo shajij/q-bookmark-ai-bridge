@@ -27,6 +27,7 @@ import re
 OLLAMA_URL = "http://localhost:11434"
 MAX_INPUT_LENGTH = 10000  # Maximum characters for any input
 MAX_BOOKMARKS = 50  # Maximum bookmarks to process
+MAX_MESSAGE_SIZE = 1024 * 1024  # 1MB maximum message size
 
 def sanitize_input(text: str, max_length: int = MAX_INPUT_LENGTH) -> str:
     """Sanitize user input to prevent prompt injection"""
@@ -53,6 +54,12 @@ def read_message() -> Dict[str, Any]:
     if not raw_length:
         return None
     message_length = struct.unpack('I', raw_length)[0]
+    
+    # Reject messages larger than 1MB
+    if message_length > MAX_MESSAGE_SIZE:
+        send_message({"success": False, "error": "Message too large (max 1MB)"})
+        return None
+    
     message = sys.stdin.buffer.read(message_length).decode('utf-8')
     return json.loads(message)
 
