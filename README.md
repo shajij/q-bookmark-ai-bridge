@@ -70,7 +70,7 @@ install.bat   # Windows
 2. Go to `about:debugging`
 3. Click "This Firefox" in the left sidebar
 4. Find "Q Book Marker Pro" in the list
-5. Copy the "Internal UUID" (should be: `qbookmark-pro@johshaji.dev`)
+5. Copy the "Internal UUID" (should be: `qbookmark-pro@qbookpro.dev`)
 
 ## Usage
 
