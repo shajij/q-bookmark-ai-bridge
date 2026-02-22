@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 """
-Q Bookmark AI Bridge
+Q Bookmark AI Bridge v1.1.0
 Native messaging host for Firefox extension to communicate with Ollama
+
+Security improvements:
+- Input sanitization to prevent prompt injection
+- 1MB message size limit to prevent DoS
+- Localhost-only Ollama connection
 """
 import sys
 import json
