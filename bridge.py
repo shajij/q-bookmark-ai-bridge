@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/opt/homebrew/bin/python3
 """
 Q Bookmark AI Bridge v1.1.0
 Native messaging host for Firefox extension to communicate with Ollama
@@ -81,8 +81,13 @@ def call_ollama(action: str, data: Dict[str, Any]) -> Dict[str, Any]:
             # Sanitize inputs
             title = sanitize_input(bookmark.get('title', ''), 500)
             url = sanitize_input(bookmark.get('url', ''), 2000)
+            content = sanitize_input(bookmark.get('content', ''), 5000)
             
-            prompt = f"Summarize this bookmark in 2-3 sentences:\nTitle: {title}\nURL: {url}"
+            # Skip if no meaningful content
+            if not content or len(content.strip()) < 50:
+                return {"success": False, "error": "No content to summarize"}
+            
+            prompt = f"Summarize this webpage in 2-3 sentences. Only provide the summary, no apologies or meta-commentary:\nTitle: {title}\nContent: {content[:3000]}"
             
             response = requests.post(
                 f"{OLLAMA_URL}/api/generate",
@@ -92,7 +97,37 @@ def call_ollama(action: str, data: Dict[str, Any]) -> Dict[str, Any]:
             
             if response.status_code == 200:
                 result = response.json()
-                return {"success": True, "result": result.get("response", "")}
+                summary = result.get("response", "").strip()
+                
+                # Filter out unhelpful responses
+                unhelpful_phrases = [
+                    "i apologize",
+                    "there is no text",
+                    "no bookmark information",
+                    "i'd be happy to help",
+                    "i cannot",
+                    "unable to summarize"
+                ]
+                
+                if any(phrase in summary.lower() for phrase in unhelpful_phrases):
+                    return {"success": False, "error": "Unable to generate meaningful summary"}
+                
+                # Remove meta-commentary prefixes
+                prefixes_to_remove = [
+                    "this is a summary of the webpage in 2-3 sentences:",
+                    "here is a summary:",
+                    "summary:",
+                    "here's a summary:",
+                    "the webpage is about:"
+                ]
+                
+                summary_lower = summary.lower()
+                for prefix in prefixes_to_remove:
+                    if summary_lower.startswith(prefix):
+                        summary = summary[len(prefix):].strip()
+                        break
+                
+                return {"success": True, "result": summary}
             else:
                 return {"success": False, "error": f"Ollama error: {response.status_code}"}
         
